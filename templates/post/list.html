@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All Posts - MyBlog
+{% endblock title %}
+
+{% block content %}
+<div class="bg-white py-12 md:py-20">
+    <div class="container mx-auto px-6">
+        
+        <!-- Page Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900">From the Blog</h1>
+            <p class="text-lg text-gray-600 mt-2">Explore our latest articles and stories.</p>
+        </div>
+
+        <!-- Blog Post List -->
+        <div class="max-w-4xl mx-auto">
+            <div class="space-y-12">
+
+                <!-- 
+                    This is the Django template loop. 
+                    Your view should pass a list of post objects to this template.
+                    I've changed your loop from `for post in post` to `for post in posts`
+                    which is a common convention.
+                -->
+                {% for post in post %}
+                <article class="p-6 md:p-8 bg-gray-50 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out">
+                    
+                    <!-- Post Title -->
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
+                        <!-- It's good practice to make the title a link to the post's detail page -->
+                        <a href="#" class="hover:text-blue-700 transition-colors duration-300">{{ post.title }}</a>
+                    </h2>
+                    
+                    <!-- Post Meta Information (Optional, but nice to have) -->
+                    <div class="flex items-center text-gray-500 text-sm mb-4">
+                        <!-- Assuming your Post model has an author and a creation date -->
+                        <span>By {{ post.author.username|default:'Admin' }}</span>
+                        <span class="mx-2">&bull;</span>
+                        <span>{{ post.created_on|date:"F d, Y" }}</span>
+                    </div>
+                    
+                    <!-- Post Excerpt/Content -->
+                    <div class="text-gray-700 leading-relaxed">
+                        <!-- The `truncatewords` filter creates a short preview -->
+                        <p>{{ post.content|truncatewords:40|linebreaks }}</p>
+                    </div>
+                    
+                    <!-- Read More Link -->
+                    <div class="mt-6">
+                        <a href="#" class="font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-300">
+                            Read More &rarr;
+                        </a>
+                    </div>
+                </article>
+                {% empty %}
+                <!-- This message is shown if the 'posts' list from your view is empty -->
+                <div class="text-center py-16 px-6 bg-gray-50 rounded-2xl shadow-lg">
+                    <h2 class="text-2xl font-semibold text-gray-700">No Posts Yet</h2>
+                    <p class="text-gray-500 mt-2">There are no posts to display. Why not write the first one?</p>
+                </div>
+                {% endfor %}
+
+            </div>
+
+            <!-- Basic Pagination (Optional but Recommended) -->
+            <div class="mt-16 text-center">
+                <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <a href="#" class="relative inline-flex items-center px-3 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-600 hover:bg-gray-50">
+                      Previous
+                    </a>
+                    <a href="#" aria-current="page" class="relative z-10 inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600">
+                      1
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                      2
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-3 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-600 hover:bg-gray-50">
+                      Next
+                    </a>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

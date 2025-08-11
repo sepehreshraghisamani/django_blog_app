@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% comment %} <!-- The title can be customized on each page that extends this template --> {% endcomment %}
+    <title>{% block title %}MyBlog{% endblock %}</title>
+    
+    {% comment %} <!-- Tailwind CSS --> {% endcomment %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    {% comment %} <!-- Google Fonts: Inter --> {% endcomment %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Use Inter as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Simple background gradient for hero sections, can be used in child templates */
+        .gradient-bg {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 100% 0%, #dbeafe 0%, #f8fafc 25%),
+                radial-gradient(circle at 0% 100%, #dbeafe 0%, #f8fafc 25%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    {% comment %} <!-- Header / Navigation -->
+    <!-- This header will appear on every page that uses this base template. --> {% endcomment %}
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                {% comment %} <!-- App Name/Logo --> {% endcomment %}
+                <a href="#" class="text-2xl font-bold text-gray-900">
+                    MyBlog
+                </a>
+                
+                {% comment %} <!-- Desktop Navigation Links --> {% endcomment %}
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="{% url "list_post" %}" class="text-gray-600 hover:text-blue-600 transition-colors">Posts</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-600 transition-colors">Categories</a>
+                    <a href="{% url "about" %}" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+                </div>
+                
+                {% comment %} <!-- CTA Button --> {% endcomment %}
+                <a href="#" class="hidden md:block bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                    Start Writing
+                </a>
+
+                {% comment %} <!-- Mobile Menu Button (optional) --> {% endcomment %}
+                <button class="md:hidden text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    {% comment %} <!-- Main Content Block -->
+    <!-- The content for each specific page will be injected here. --> {% endcomment %}
+    <main>
+        {% block content %}
+        {% comment %} <!-- Child templates will override this block with their own content. --> {% endcomment %}
+        {% endblock %}
+    </main>
+
+    {% comment %} <!-- Footer -->
+    <!-- This footer will also appear on every page. --> {% endcomment %}
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-center md:text-left mb-4 md:mb-0">&copy; 2025 MyBlog. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Twitter</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Facebook</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Instagram</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
