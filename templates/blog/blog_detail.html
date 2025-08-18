@@ -1,0 +1,86 @@
+
+{% extends 'base.html' %}
+{% load static %} 
+
+
+
+{% block title %}{{ blog_post.title }} | MyBlog{% endblock %}
+
+{% block content %}
+
+
+<script src="https://cdn.tailwindcss.com/3.4.1"></script>
+<script>
+  tailwind.config = {
+   
+    plugins: [
+      require('@tailwindcss/typography'),
+    
+    ],
+  }
+</script>
+
+<div class="bg-white py-12 md:py-20">
+    <div class="container mx-auto px-6">
+        {% comment %} <!-- Article Wrapper --> {% endcomment %}
+        <article class="max-w-3xl mx-auto">
+            
+            {% comment %} <!-- Post Header --> {% endcomment %}
+            <header class="text-center mb-8 md:mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                    {{ blog_post.title }}
+                </h1>
+                <div class="text-gray-500 text-base">
+                    <span>Published on {{ blog_post.created_on|date:"F j, Y" }} by </span>
+                    <a href="#" class="font-semibold text-blue-600 hover:underline">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</a>
+                </div>
+            </header>
+
+            {% comment %} <!-- Optional: Feature Image -->
+            <!-- If your Post model has an ImageField called 'image', you can display it like this. -->
+            {% if blog_post.image %}
+            <div class="mb-8 md:mb-12 rounded-xl overflow-hidden shadow-lg">
+                <img src="{{ blog_post.image.url }}" alt="{{ blog_post.title }}" class="w-full h-auto blog_post-cover">
+            </div>
+            {% endif %}
+            {% endcomment %}
+
+            {% comment %} <!-- Post Content -->
+            <!-- The 'prose' classes from Tailwind Typography automatically style your content. --> {% endcomment %}
+            <div class="prose prose-lg lg:prose-xl max-w-none text-gray-700 leading-relaxed">
+                {{ blog_post.content|safe }}
+            </div>
+            
+            {% comment %} <!-- Divider --> {% endcomment %}
+            <hr class="my-12 border-gray-200">
+
+            {% comment %} <!-- Author Bio Section --> {% endcomment %}
+            <div class="flex items-center bg-gray-50 p-6 rounded-xl">
+                {% comment %} <!-- Author Image -->
+                <!-- <img src="https://i.pravatar.cc/100?u={{ blog_post.author.username }}" alt="{{ blog_post.author.get_full_name }}" class="w-20 h-20 rounded-full mr-6"> -->
+                {% endcomment %}
+                <div>
+                    <p class="text-sm text-gray-500 mb-1">Written By</p>
+                    <h4 class="text-xl font-bold text-gray-900">{{ blog_post.author.first_name }} {{ blog_post.author.last_name }}</h4>
+                    <p class="text-gray-600 mt-2">
+                        {% comment %} Add an author bio here. It's best to add a 'bio' field to your User profile model. {% endcomment %}
+                        A passionate writer and developer exploring the latest in technology and design. Follow for more insights and tutorials.
+                    </p>
+                </div>
+            </div>
+
+            {% comment %} <!-- Back to Blog Link --> {% endcomment %}
+            <div class="text-center mt-12">
+                <a href="{% url 'blog-list' %}" class="inline-flex items-center text-blue-600 font-semibold hover:text-blue-800 transition-colors group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to All Posts
+                </a>
+            </div>
+
+        </article>
+    </div>
+</div>
+
+{% endblock %}
