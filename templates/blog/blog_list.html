@@ -19,7 +19,7 @@
         
         {% for post in blog_posts %}
         <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-2 transition-all duration-300 group">
-            <a href="{% url "blog-detail" post.id %}" class="block">
+            <a href="{{post.get_absolute_url}}" class="block">
                 
                
 
