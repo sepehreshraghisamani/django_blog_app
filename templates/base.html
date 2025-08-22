@@ -46,6 +46,15 @@
                 <div class="hidden md:flex items-center space-x-6">
                     <a href="{% url "blog-list" %}" class="text-gray-600 hover:text-blue-600 transition-colors">Posts</a>
                     <a href="{% url "about" %}" class="text-gray-600 hover:text-blue-600 transition-colors">About</a>
+                    {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="text-gray-600 hover:text-blue-600 transition-colors">Logout</button>
+                    </form>
+                    {% else %}
+                    <a href="{% url "login" %}" class="text-gray-600 hover:text-blue-600 transition-colors">Login</a>
+                    <a href="{% url "signup" %}" class="text-gray-600 hover:text-blue-600 transition-colors">Sign Up</a>
+                    {% endif %}
                 </div>
                 
                 {% comment %} <!-- CTA Button --> {% endcomment %}

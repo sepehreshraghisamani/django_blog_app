@@ -35,4 +35,37 @@ class BlogPostTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'This is a test post.')
         self.assertTemplateUsed(response, 'blog/blog_detail.html') 
+    
+    def test_get_absolute_url(self):
+        self.assertEqual(self.post.get_absolute_url(), f'/blog/{self.post.id}/')
+    
+    def test_create_blog_post_view(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(reverse('blog-create'), {
+            'title': 'New Post',
+            'content': 'This is a new post.',
+            'author': self.user.id
+        })
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Blog_Post.objects.last().title, 'New Post')
+        self.assertEqual(Blog_Post.objects.last().content, 'This is a new post.')
+    
+    def test_update_blog_post_view(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(reverse('blog-update', args=[self.post.id]), {
+            'title': 'Updated Post',
+            'content': 'This is an updated post.',
+            'author': self.user.id
+        })
+        self.post.refresh_from_db()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(self.post.title, 'Updated Post')
+        self.assertEqual(self.post.content, 'This is an updated post.')
+    
+    def test_delete_blog_post_view(self):
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(reverse('blog-delete', args=[self.post.id]))
+        self.assertEqual(response.status_code, 302)
+        self.assertFalse(Blog_Post.objects.filter(id=self.post.id).exists())
+
 
